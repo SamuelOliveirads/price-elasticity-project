@@ -106,7 +106,7 @@ def _calculate_price_elasticity(
     """
     price_elasticity_laptop = {
         "name": [],
-        "price_elastity": [],
+        "price_elasticity": [],
         "price_mean": [],
         "quantity_mean": [],
         "intercept": [],
@@ -135,7 +135,7 @@ def _calculate_price_elasticity(
             intercept, slope = results.params
 
             price_elasticity_laptop["name"].append(column)
-            price_elasticity_laptop["price_elastity"].append(
+            price_elasticity_laptop["price_elasticity"].append(
                 slope * (np.mean(list_price) / np.mean(list_demand))
             )
             price_elasticity_laptop["rsquared"].append(results.rsquared)
@@ -197,8 +197,8 @@ def simulate_elasticity(
             else:
                 price_change = (current_price_mean * percentual) + current_price_mean
 
-            demand_increase = (percentual / 100) * df_elasticity["price_elastity"][i]
-            new_demand = demand_increase * current_demand
+            demand_increase = (percentual / 100) * df_elasticity["price_elasticity"][i]
+            new_demand = current_demand + (current_demand * demand_increase)
 
             current_revenue = round(current_price_mean * current_demand, 2)
             new_revenue = round(price_change * new_demand, 2)
@@ -259,7 +259,7 @@ def _generate_general_report(
         f"{impact}, being able to make the potential revenue of "
         f"your business can reach {round(total_new_revenue,2)}. "
         f"This represents a value of {round(abs(revenue_variation),2)}"
-        f"{'more' if impact == 'INCREASES' else 'less'} than you "
+        f" {'more' if impact == 'INCREASES' else 'less'} than you "
         f"currently invoice.\n"
     )
     general_report += (
